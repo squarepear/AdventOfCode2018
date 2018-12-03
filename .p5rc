@@ -1,0 +1,8 @@
+{
+  "name": "AdventOfCode",
+  "projects": [
+    "Day1",
+    "Day2",
+    "Day3"
+  ]
+}
