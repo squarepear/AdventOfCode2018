@@ -12,12 +12,12 @@ getInput().then(function (input) {
 	}
 
 	new Promise(function (resolve, reject) {
-		var inches = {};
+		var inches = zeros([1000, 1000]);
 
 		for (var i = 0; i < out.length; i++) {
-			for (var x = out[i][1]; x < out[i][1] + out[i][3]; x++) {
-				for (var y = out[i][2]; y < out[i][2] + out[i][4]; y++) {
-					inches[x + ',' + y] = inches[x + ',' + y] > 0 ? inches[x + ',' + y] + 1 : 1;
+			for (var x = 0; x < parseInt(out[i][3]); x++) {
+				for (var y = 0; y < parseInt(out[i][4]); y++) {
+					inches[parseInt(out[i][1]) + x][parseInt(out[i][2]) + y]++;
 				}
 			}
 		}
@@ -26,18 +26,28 @@ getInput().then(function (input) {
 	}).then(function (inches) {
 		var total = 0;
 
-		for (var index in inches) {
-			var val = inches[index];
-			if (val > 1) {
-				total++;
+		for (var x = 0; x < inches.length; x++) {
+			for (var y = 0; y < inches[x].length; y++) {
+				if (inches[x][y] > 1) {
+					total++;
+				}
 			}
 		}
 
-		console.log(inches);
 		createP('Overlap Count: ' + total);
 	});
 });
 
 function setup() {
 	noCanvas();
+}
+
+function zeros(dimensions) {
+	var array = [];
+
+	for (var i = 0; i < dimensions[0]; i++) {
+		array.push(dimensions.length == 1 ? 0 : zeros(dimensions.slice(1)));
+	}
+
+	return array;
 }

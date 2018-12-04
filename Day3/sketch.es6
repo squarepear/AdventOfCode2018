@@ -10,12 +10,12 @@ getInput().then((input) => {
 	}
 
 	new Promise((resolve, reject) => {
-		let inches = {}
+		let inches = zeros([1000, 1000])
 
 		for (let i = 0; i < out.length; i++) {
-			for (let x = out[i][1]; x < out[i][1] + out[i][3]; x++) {
-				for (let y = out[i][2]; y < out[i][2] + out[i][4]; y++) {
-					inches[x + ',' + y] = (inches[x + ',' + y] > 0) ? inches[x + ',' + y] + 1 : 1
+			for (let x = 0; x < parseInt(out[i][3]); x++) {
+				for (let y = 0; y < parseInt(out[i][4]); y++) {
+					inches[parseInt(out[i][1]) + x][parseInt(out[i][2]) + y]++
 				}
 			}
 		}
@@ -24,14 +24,16 @@ getInput().then((input) => {
 	}).then((inches) => {
 		let total = 0
 
-		for (let index in inches) {
-			let val = inches[index]
-			if (val > 1) {
-				total++
+		for (let x = 0; x < inches.length; x++) {
+			for (let y = 0; y < inches[x].length; y++) {
+				if (inches[x][y] > 1) {
+					total++
+				}
+				
 			}
 		}
 
-		console.log(inches)
+
 		createP('Overlap Count: ' + total)
 	})
 
@@ -39,4 +41,14 @@ getInput().then((input) => {
 
 function setup() {
 	noCanvas()
+}
+
+function zeros(dimensions) {
+	var array = []
+
+	for (var i = 0; i < dimensions[0]; i++) {
+		array.push(dimensions.length == 1 ? 0 : zeros(dimensions.slice(1)))
+	}
+
+	return array
 }
